@@ -21,11 +21,11 @@ const fetchEs = () => {
                 const btnRemove = document.createElement("button");
                 const btnBuy = document.createElement("Button");
                 const cite = document.createElement("p");
-                cite.class
+                cite.className = "text-black";
 
                 btnBuy.classList = "btn btn-success mx-3";
                 btnRemove.className = "btn btn-danger";
-                img.style.width = "50%";
+                img.style.width = "75%";
                 img.src = element.img;
                 cite.innerText = "€" + element.price;
                 h5.innerText = element.title;
@@ -42,17 +42,43 @@ const fetchEs = () => {
 
                 btnRemove.addEventListener("click", function () {
                     card.removeChild(col);
+
+
+
+
+
+
                 })
+                btnBuy.addEventListener("click", function (e) {
+                    e.preventDefault();
+
+                    const arrBuy = [];
+                    const ul = document.querySelector("ul");
+                    const li = document.createElement("li");
+                    li.innerText = element.title + "  " + element.price + "€";
+                    ul.appendChild(li);
+                    const ulBtn = document.createElement("button");
+                    ulBtn.innerText = "Rimuovi";
+                    ulBtn.className = "btn btn-danger mx-5 my-1";
+                    li.appendChild(ulBtn);
+                    arrBuy.push(ul.innerText);
+                    let carrello = localStorage.getItem("carrello") ? JSON.parse(localStorage.getItem("carrello")) : [];
+                    carrello.push({ title: element.title, price: element.price });
+                    localStorage.setItem("carrello", JSON.stringify(carrello));
+                    ulBtn.addEventListener("click", function (e) {
+                        e.preventDefault();
+                        ul.removeChild(li);
+                        console.log(arrBuy);
+
+                    })
+                })
+
 
             });
 
         })
         .catch(err => console.log(err));
 };
-
-
-
-
 
 window.onload = () => {
     fetchEs();
